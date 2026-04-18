@@ -3,15 +3,14 @@ name: MovieCatalogExam
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -19,11 +18,10 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore MovieCatalogExam.Models/Exam_TheMovieCatalogSystem_2026QA.csproj
 
-    - name: Build
-      run: dotnet build --no-restore
+    - name: Build project
+      run: dotnet build MovieCatalogExam.Models/Exam_TheMovieCatalogSystem_2026QA.csproj --no-restore --configuration Release
 
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
-
+    - name: Run tests
+      run: dotnet test MovieCatalogExam.Models/Exam_TheMovieCatalogSystem_2026QA.csproj --no-build --configuration Release --verbosity normal
